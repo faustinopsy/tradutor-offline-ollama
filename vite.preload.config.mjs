@@ -1,4 +1,5 @@
+// vite.preload.config.mjs
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config
+// Preload doesn't need special configuration, but the file must exist.
 export default defineConfig({});
