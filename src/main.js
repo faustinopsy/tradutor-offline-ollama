@@ -52,5 +52,37 @@ app.on('window-all-closed', () => {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+import { ipcMain } from 'electron'
+
+ipcMain.handle('translate-text', async (event, textToTranslate) => {
+  console.log(`Texto recebido para tradução: "${textToTranslate}"`)
+
+  const prompt = `Você é um tradutor expert. Traduza o seguinte texto de português para inglês, sem adicionar nenhum comentário ou explicação, apenas o texto traduzido:\n\n"${textToTranslate}"`
+
+  try {
+    const response = await fetch('http://localhost:11434/api/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama3:8b-instruct-q4_K_M',
+        prompt: prompt,
+        stream: false,
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Erro na API do Ollama: ${response.statusText}`)
+    }
+
+    const data = await response.json()
+    console.log('Resposta recebida do Ollama:', data.response)
+    
+    return data.response.trim()
+
+  } catch (error) {
+    console.error('Falha ao comunicar com o Ollama:', error)
+    return `Erro ao traduzir: ${error.message}`
+  }
+})

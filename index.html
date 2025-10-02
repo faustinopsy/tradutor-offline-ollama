@@ -1,13 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World!</title>
-
+    <title>Meu Tradutor Offline</title>
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-    <script type="module" src="/src/renderer.js"></script>
+    <div class="container">
+      <h1>Meu Tradutor Offline</h1>
+      <textarea
+        id="inputText"
+        placeholder="Digite o texto para traduzir"
+        rows="5"
+      >A reunião de hoje foi muito produtiva.</textarea>
+      <button id="btnTraduzir">Traduzir</button>
+      <h2>Tradução:</h2>
+      <div id="resultado" class="result-box">
+        Aguardando tradução...
+      </div>
+    </div>
+    <script type="module" src="./src/renderer.js"></script>
   </body>
 </html>
